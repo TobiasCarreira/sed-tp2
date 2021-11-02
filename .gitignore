@@ -1,0 +1,17 @@
+src/bin/cd++
+*.o
+*.a
+*.so
+*.dep
+*.dep.*
+*.log*
+*.out
+
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+*$py.class
+
+.idea/
+
+model/simulation.ma
