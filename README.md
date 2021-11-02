@@ -14,3 +14,8 @@ Si ya clonaste el repo y querés bajar los submodulos:
 git submodule init
 git submodule update
 ```
+
+## Cambios para usar aleatoriedad
+
+Para que funcione la aleatoriedad en CDPP, hay que entrar en `CDPP_ExtendedStates-codename-Santi/src/cd++/Makefile.defs` y comentar la linea `DEFINES_CPP += -DDEVS_NOTRANDOM`.
+
