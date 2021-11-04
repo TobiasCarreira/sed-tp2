@@ -19,20 +19,22 @@ def get_agents(df, time):
     agents = np.zeros((x_size, y_size), dtype=int)
     directions = {}
     life_time = {}
+    todos_enojos = {}
     for _, row in timed_df.iterrows():
         x, y = row[COORDS_COL]
         val = row[VALUE_COL]
         if val != 0:
-            i, d, t = val
+            i, d, t, *enojos = val
             agents[x, y] = i
             directions[i] = d
             life_time[i] = t
+            print((time, t, i, enojos))
     return agents, directions, life_time
 
 
 def plot_agents(data):
     agents, directions, life_time = data
-    # print(data)
+    print(data)
 
     plt.axes().clear()
     pc = plt.pcolor(agents, cmap='Dark2', edgecolors='k', linewidths=1)
@@ -62,4 +64,4 @@ if __name__ == '__main__':
 
     fig = plt.figure(figsize=(10, 10))
     anim = FuncAnimation(fig, plot_agents, frames=frames, interval=500)
-    anim.save('animation.mp4', writer='imagemagick')
+    anim.save('animation.gif', writer='imagemagick')
