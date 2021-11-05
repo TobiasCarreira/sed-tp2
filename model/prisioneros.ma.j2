@@ -1,0 +1,245 @@
+[Top]
+components : personas
+
+[personas]
+type : cell
+dim : (10,10)
+delay : transport
+defaultDelayTime  : 0
+border : wrapped
+neighbors : personas(-2,0)
+neighbors : personas(-1,-1) personas(-1,0) personas(-1,1)
+neighbors : personas(0,-2) personas(0,-1)  personas(0,0)  personas(0,1) personas(0,2)
+neighbors : personas(1,-1)  personas(1,0)  personas(1,1)
+neighbors : personas(2,0)
+initialvalue : 0
+initialCellsValue : prisioneros.val
+localtransition : personas-rule
+
+[personas-rule]
+% Si termina la condena, desaparece
+rule : 0 100 {(0,0)!2<=100}
+
+% Reglas de movimiento si no hay enfrentamiento
+
+% Reglas de moverme
+rule : {
+    [
+        (0,-1)!0,
+        randInt(3) + 1,
+        (0,-1)!2 - 100,
+{% for pr in prisioners %}
+        if((0,-1)!{{ loop.index0 + 3 }} > 0, (0,-1)!{{ loop.index0 + 3 }} - 1 , (0,-1)!{{ loop.index0 + 3 }}){% if not  loop.last %},{% endif %}
+{% endfor %}
+    ]
+} 100 {(0,0)=0 and (0,-1)!1=1 and (0,-1)!2>100}
+
+rule : {
+    [
+        (-1,0)!0,
+        randInt(3) + 1,
+        (-1,0)!2 - 100,
+{% for pr in prisioners %}
+        if((-1,0)!{{ loop.index0 + 3 }} > 0, (-1,0)!{{ loop.index0 + 3 }} - 1 , (-1,0)!{{ loop.index0 + 3 }}){% if not loop.last %},{% endif %}
+{% endfor %}
+    ]
+} 100 {(0,0)=0 and (-1,0)!1=2 and (-1,0)!2>100}
+
+rule : {
+    [
+        (0,1)!0,
+        randInt(3) + 1,
+        (0, 1)!2 - 100,
+{% for pr in prisioners %}
+        if((0,1)!{{ loop.index0 + 3 }} > 0, (0,1)!{{ loop.index0 + 3 }} - 1 , (0,1)!{{ loop.index0 + 3 }}){% if not loop.last %},{% endif %}
+{% endfor %}
+    ]
+} 100 {(0,0)=0 and (0,1)!1=3 and (0,1)!2>100}
+
+rule : {
+    [
+        (1,0)!0,
+        randInt(3) + 1,
+        (1, 0)!2 - 100,
+{% for pr in prisioners %}
+        if((1,0)!{{ loop.index0 + 3 }} > 0, (1,0)!{{ loop.index0 + 3 }} - 1 , (1,0)!{{ loop.index0 + 3 }}){% if not loop.last %},{% endif %}
+{% endfor %}
+    ]
+} 100 {(0,0)=0 and (1,0)!1=4 and (1,0)!2>100}
+
+% Reglas de eliminarme de la posicion anterior
+rule : 0 100 {(0,0)!1=1 and (0,1)=0}
+rule : 0 100 {(0,0)!1=2 and (1,0)=0 and (1,-1)!1!=1}
+rule : 0 100 {(0,0)!1=3 and (0,-1)=0 and (0,-2)!1!=1 and (-1,-1)!1!=2}
+rule : 0 100 {(0,0)!1=4 and (-1,0)=0 and (-1,-1)!1!=1 and (-2,0)!1!=2 and (-1,1)!1!=3}
+
+% Si hay conflicto, se suma condena y se cambia la direccion de mirada
+% Tiro una moneda para ver si se buchonean
+% Si se buchonean, suma 100 de condena
+
+% regla buchoneo (0,1)
+rule : {
+    [
+        (0,0)!0,
+        randInt(3) + 1, % elijo nueva direccion
+        (0,0)!2 + 100, % te buchonearon
+{% for pr in prisioners %}
+        if(
+            (0,1)!0 = {{ loop.index }}, % es el oponente {{ loop.index }}
+            if((0,0)!{{ loop.index0 + 3 }} = -1, randInt({{ max_delay }}), min((0,0)!{{ loop.index0 + 3 }}, randInt({{ max_delay }}))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!{{ loop.index0 + 3 }} > 0, (0,0)!{{ loop.index0 + 3 }} - 1 , (0,0)!{{ loop.index0 + 3 }}) % pasa el tiempo
+        ){% if not loop.last %},{% endif %}
+{% endfor %}
+    ]
+} 100 {
+    (0,0)!1=1 and (0,1)!1=3 % me estoy mirando
+    and
+    (
+{% for pr in prisioners %}
+        (
+            (0,0)!0 = {{ loop.index }} % soy el {{ loop.index }}
+            and
+            (0,1)!{{ loop.index0 + 3 }} = 0 % obligatoriamente me buchonea porque ya se entero de que lo buchonee
+        )
+    {% if not loop.last %}or{% endif %}
+{% endfor %}
+        or
+        randInt(1) = 0 % siempre me puede buchonear
+    )
+}
+
+% regla buchoneo (0,-1)
+rule : {
+    [
+        (0,0)!0,
+        randInt(3) + 1, % elijo nueva direccion
+        (0,0)!2 + 100, % te buchonearon
+{% for pr in prisioners %}
+        if(
+            (0,-1)!0 = {{ loop.index }}, % es el oponente {{ loop.index }}
+            if((0,0)!{{ loop.index0 + 3 }} = -1, randInt({{ max_delay }}), min((0,0)!{{ loop.index0 + 3 }}, randInt({{ max_delay }}))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!{{ loop.index0 + 3 }} > 0, (0,0)!{{ loop.index0 + 3 }} - 1 , (0,0)!{{ loop.index0 + 3 }}) % pasa el tiempo
+        ){% if not loop.last %},{% endif %}
+{% endfor %}
+    ]
+} 100 {
+    (0,0)!1=3 and (0,-1)!1=1 % me estoy mirando
+    and
+    (
+{% for pr in prisioners %}
+        (
+            (0,0)!0 = {{ loop.index }} % soy el {{ loop.index }}
+            and
+            (0,-1)!{{ loop.index0 + 3 }} = 0 % obligatoriamente me buchonea porque ya se entero de que lo buchonee
+        )
+    {% if not loop.last %}or{% endif %}
+{% endfor %}
+        or
+        randInt(1) = 0 % siempre me puede buchonear
+    )
+}
+
+% regla buchoneo (1,0)
+rule : {
+    [
+        (0,0)!0,
+        randInt(3) + 1, % elijo nueva direccion
+        (0,0)!2 + 100, % te buchonearon
+{% for pr in prisioners %}
+        if(
+            (1,0)!0 = {{ loop.index }}, % es el oponente {{ loop.index }}
+            if((0,0)!{{ loop.index0 + 3 }} = -1, randInt({{ max_delay }}), min((0,0)!{{ loop.index0 + 3 }}, randInt({{ max_delay }}))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!{{ loop.index0 + 3 }} > 0, (0,0)!{{ loop.index0 + 3 }} - 1 , (0,0)!{{ loop.index0 + 3 }}) % pasa el tiempo
+        ){% if not loop.last %},{% endif %}
+{% endfor %}
+    ]
+} 100 {
+    (0,0)!1=2 and (1,0)!1=4 % me estoy mirando
+    and
+    (
+{% for pr in prisioners %}
+        (
+            (0,0)!0 = {{ loop.index }} % soy el {{ loop.index }}
+            and
+            (1,0)!{{ loop.index0 + 3 }} = 0 % obligatoriamente me buchonea porque ya se entero de que lo buchonee
+        )
+    {% if not loop.last %}or{% endif %}
+{% endfor %}
+        or
+        randInt(1) = 0 % siempre me puede buchonear
+    )
+}
+
+% regla buchoneo (-1,0)
+rule : {
+    [
+        (0,0)!0,
+        randInt(3) + 1, % elijo nueva direccion
+        (0,0)!2 + 100, % te buchonearon
+{% for pr in prisioners %}
+        if(
+             (-1,0)!0 = {{ loop.index }}, % es el oponente {{ loop.index }}
+            if((0,0)!{{ loop.index0 + 3 }} = -1, randInt({{ max_delay }}), min((0,0)!{{ loop.index0 + 3 }}, randInt({{ max_delay }}))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!{{ loop.index0 + 3 }} > 0, (0,0)!{{ loop.index0 + 3 }} - 1 , (0,0)!{{ loop.index0 + 3 }}) % pasa el tiempo
+        ){% if not loop.last %},{% endif %}
+{% endfor %}
+    ]
+} 100 {
+    (0,0)!1=4 and (-1,0)!1=2 % me estoy mirando
+    and
+    (
+{% for pr in prisioners %}
+        (
+            (0,0)!0 = {{ loop.index }} % soy el {{ loop.index }}
+            and
+             (-1,0)!{{ loop.index0 + 3 }} = 0 % obligatoriamente me buchonea porque ya se entero de que lo buchonee
+        )
+    {% if not loop.last %}or{% endif %}
+{% endfor %}
+        or
+        randInt(1) = 0 % siempre me puede buchonear
+    )
+}
+
+% regla de NO buchoneo
+rule : {
+    [
+        (0,0)!0,
+        randInt(3) + 1, % elijo nueva direccion
+        (0,0)!2 - 100, % no te buchonearon
+{% for pr in prisioners %}
+        if((0,0)!{{ loop.index0 + 3 }} > 0, (0,0)!{{ loop.index0 + 3 }} - 1 , (0,0)!{{ loop.index0 + 3 }}){% if not loop.last %},{% endif %}
+{% endfor %}
+    ]
+} 100 {
+    (
+        (0,0)!1=1 and (0,1)!1=3 % me estoy mirando - regla (0,1)
+    )
+    or
+    (
+        (0,0)!1=3 and (0,-1)!1=1 % me estoy mirando - regla (0,-1)
+    )
+    or
+    (
+        (0,0)!1=2 and (1,0)!1=4 % me estoy mirando - regla (1,0)
+    )
+    or
+    (
+        (0,0)!1=4 and (-1,0)!1=2 % me estoy mirando - regla (-1,0)
+    )
+    % si esta regla va despues de las reglas de buchoneo
+    % si llegue aca (por el orden de las reglas), no me buchonearon
+}
+
+% regla default es que pasa el tiempo pero no se mueve
+rule : 0 100 { (0,0) = 0 }
+rule : {
+    [
+        (0,0)!0,
+        (0,0)!1,
+        (0,0)!2 - 100,
+{% for pr in prisioners %}
+        if((0,0)!{{ loop.index0 + 3 }} > 0, (0,0)!{{ loop.index0 + 3 }} - 1 , (0,0)!{{ loop.index0 + 3 }}){% if not loop.last %},{% endif %}
+{% endfor %}
+    ]
+} 100 { t }
