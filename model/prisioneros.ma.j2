@@ -13,7 +13,7 @@ neighbors : personas(0,-2) personas(0,-1)  personas(0,0)  personas(0,1) personas
 neighbors : personas(1,-1)  personas(1,0)  personas(1,1)
 neighbors : personas(2,0)
 initialvalue : 0
-initialCellsValue : prisioneros.val
+initialCellsValue : {{ initial_values_file }}
 localtransition : personas-rule
 
 [personas-rule]
@@ -82,11 +82,11 @@ rule : {
     [
         (0,0)!0,
         randInt(3) + 1, % elijo nueva direccion
-        (0,0)!2 + 100, % te buchonearon
+        (0,0)!2 + {{ added_sentence }}, % te buchonearon
 {% for pr in prisioners %}
         if(
             (0,1)!0 = {{ loop.index }}, % es el oponente {{ loop.index }}
-            if((0,0)!{{ loop.index0 + 3 }} = -1, randInt({{ max_delay }}), min((0,0)!{{ loop.index0 + 3 }}, randInt({{ max_delay }}))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!{{ loop.index0 + 3 }} = -1, randInt({{ max_delay - min_delay }}) + {{ min_delay }}, min((0,0)!{{ loop.index0 + 3 }}, randInt({{ max_delay - min_delay }}) + {{ min_delay }})), % si ya me buchoneo (lo sepa o no)
             if((0,0)!{{ loop.index0 + 3 }} > 0, (0,0)!{{ loop.index0 + 3 }} - 1 , (0,0)!{{ loop.index0 + 3 }}) % pasa el tiempo
         ){% if not loop.last %},{% endif %}
 {% endfor %}
@@ -104,7 +104,7 @@ rule : {
     {% if not loop.last %}or{% endif %}
 {% endfor %}
         or
-        randInt(1) = 0 % siempre me puede buchonear
+        {{ betrayal_proba }} % siempre me puede buchonear
     )
 }
 
@@ -113,11 +113,11 @@ rule : {
     [
         (0,0)!0,
         randInt(3) + 1, % elijo nueva direccion
-        (0,0)!2 + 100, % te buchonearon
+        (0,0)!2 + {{ added_sentence }}, % te buchonearon
 {% for pr in prisioners %}
         if(
             (0,-1)!0 = {{ loop.index }}, % es el oponente {{ loop.index }}
-            if((0,0)!{{ loop.index0 + 3 }} = -1, randInt({{ max_delay }}), min((0,0)!{{ loop.index0 + 3 }}, randInt({{ max_delay }}))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!{{ loop.index0 + 3 }} = -1, randInt({{ max_delay - min_delay }}) + {{ min_delay }}, min((0,0)!{{ loop.index0 + 3 }}, randInt({{ max_delay - min_delay }}) + {{ min_delay }})), % si ya me buchoneo (lo sepa o no)
             if((0,0)!{{ loop.index0 + 3 }} > 0, (0,0)!{{ loop.index0 + 3 }} - 1 , (0,0)!{{ loop.index0 + 3 }}) % pasa el tiempo
         ){% if not loop.last %},{% endif %}
 {% endfor %}
@@ -135,7 +135,7 @@ rule : {
     {% if not loop.last %}or{% endif %}
 {% endfor %}
         or
-        randInt(1) = 0 % siempre me puede buchonear
+        {{ betrayal_proba }} % siempre me puede buchonear
     )
 }
 
@@ -144,11 +144,11 @@ rule : {
     [
         (0,0)!0,
         randInt(3) + 1, % elijo nueva direccion
-        (0,0)!2 + 100, % te buchonearon
+        (0,0)!2 + {{ added_sentence }}, % te buchonearon
 {% for pr in prisioners %}
         if(
             (1,0)!0 = {{ loop.index }}, % es el oponente {{ loop.index }}
-            if((0,0)!{{ loop.index0 + 3 }} = -1, randInt({{ max_delay }}), min((0,0)!{{ loop.index0 + 3 }}, randInt({{ max_delay }}))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!{{ loop.index0 + 3 }} = -1, randInt({{ max_delay - min_delay }}) + {{ min_delay }}, min((0,0)!{{ loop.index0 + 3 }}, randInt({{ max_delay - min_delay }}) + {{ min_delay }})), % si ya me buchoneo (lo sepa o no)
             if((0,0)!{{ loop.index0 + 3 }} > 0, (0,0)!{{ loop.index0 + 3 }} - 1 , (0,0)!{{ loop.index0 + 3 }}) % pasa el tiempo
         ){% if not loop.last %},{% endif %}
 {% endfor %}
@@ -166,7 +166,7 @@ rule : {
     {% if not loop.last %}or{% endif %}
 {% endfor %}
         or
-        randInt(1) = 0 % siempre me puede buchonear
+        {{ betrayal_proba }} % siempre me puede buchonear
     )
 }
 
@@ -175,11 +175,11 @@ rule : {
     [
         (0,0)!0,
         randInt(3) + 1, % elijo nueva direccion
-        (0,0)!2 + 100, % te buchonearon
+        (0,0)!2 + {{ added_sentence }}, % te buchonearon
 {% for pr in prisioners %}
         if(
              (-1,0)!0 = {{ loop.index }}, % es el oponente {{ loop.index }}
-            if((0,0)!{{ loop.index0 + 3 }} = -1, randInt({{ max_delay }}), min((0,0)!{{ loop.index0 + 3 }}, randInt({{ max_delay }}))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!{{ loop.index0 + 3 }} = -1, randInt({{ max_delay - min_delay }}) + {{ min_delay }}, min((0,0)!{{ loop.index0 + 3 }}, randInt({{ max_delay - min_delay }}) + {{ min_delay }})), % si ya me buchoneo (lo sepa o no)
             if((0,0)!{{ loop.index0 + 3 }} > 0, (0,0)!{{ loop.index0 + 3 }} - 1 , (0,0)!{{ loop.index0 + 3 }}) % pasa el tiempo
         ){% if not loop.last %},{% endif %}
 {% endfor %}
@@ -197,7 +197,7 @@ rule : {
     {% if not loop.last %}or{% endif %}
 {% endfor %}
         or
-        randInt(1) = 0 % siempre me puede buchonear
+        {{ betrayal_proba }} % siempre me puede buchonear
     )
 }
 

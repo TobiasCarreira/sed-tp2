@@ -118,31 +118,31 @@ rule : {
 
         if(
             (0,1)!0 = 1, % es el oponente 1
-            if((0,0)!3 = -1, randInt(4), min((0,0)!3, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!3 = -1, randInt(4) + 0, min((0,0)!3, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!3 > 0, (0,0)!3 - 1 , (0,0)!3) % pasa el tiempo
         ),
 
         if(
             (0,1)!0 = 2, % es el oponente 2
-            if((0,0)!4 = -1, randInt(4), min((0,0)!4, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!4 = -1, randInt(4) + 0, min((0,0)!4, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!4 > 0, (0,0)!4 - 1 , (0,0)!4) % pasa el tiempo
         ),
 
         if(
             (0,1)!0 = 3, % es el oponente 3
-            if((0,0)!5 = -1, randInt(4), min((0,0)!5, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!5 = -1, randInt(4) + 0, min((0,0)!5, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!5 > 0, (0,0)!5 - 1 , (0,0)!5) % pasa el tiempo
         ),
 
         if(
             (0,1)!0 = 4, % es el oponente 4
-            if((0,0)!6 = -1, randInt(4), min((0,0)!6, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!6 = -1, randInt(4) + 0, min((0,0)!6, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!6 > 0, (0,0)!6 - 1 , (0,0)!6) % pasa el tiempo
         ),
 
         if(
             (0,1)!0 = 5, % es el oponente 5
-            if((0,0)!7 = -1, randInt(4), min((0,0)!7, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!7 = -1, randInt(4) + 0, min((0,0)!7, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!7 > 0, (0,0)!7 - 1 , (0,0)!7) % pasa el tiempo
         )
 
@@ -201,31 +201,31 @@ rule : {
 
         if(
             (0,-1)!0 = 1, % es el oponente 1
-            if((0,0)!3 = -1, randInt(4), min((0,0)!3, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!3 = -1, randInt(4) + 0, min((0,0)!3, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!3 > 0, (0,0)!3 - 1 , (0,0)!3) % pasa el tiempo
         ),
 
         if(
             (0,-1)!0 = 2, % es el oponente 2
-            if((0,0)!4 = -1, randInt(4), min((0,0)!4, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!4 = -1, randInt(4) + 0, min((0,0)!4, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!4 > 0, (0,0)!4 - 1 , (0,0)!4) % pasa el tiempo
         ),
 
         if(
             (0,-1)!0 = 3, % es el oponente 3
-            if((0,0)!5 = -1, randInt(4), min((0,0)!5, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!5 = -1, randInt(4) + 0, min((0,0)!5, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!5 > 0, (0,0)!5 - 1 , (0,0)!5) % pasa el tiempo
         ),
 
         if(
             (0,-1)!0 = 4, % es el oponente 4
-            if((0,0)!6 = -1, randInt(4), min((0,0)!6, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!6 = -1, randInt(4) + 0, min((0,0)!6, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!6 > 0, (0,0)!6 - 1 , (0,0)!6) % pasa el tiempo
         ),
 
         if(
             (0,-1)!0 = 5, % es el oponente 5
-            if((0,0)!7 = -1, randInt(4), min((0,0)!7, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!7 = -1, randInt(4) + 0, min((0,0)!7, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!7 > 0, (0,0)!7 - 1 , (0,0)!7) % pasa el tiempo
         )
 
@@ -284,31 +284,31 @@ rule : {
 
         if(
             (1,0)!0 = 1, % es el oponente 1
-            if((0,0)!3 = -1, randInt(4), min((0,0)!3, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!3 = -1, randInt(4) + 0, min((0,0)!3, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!3 > 0, (0,0)!3 - 1 , (0,0)!3) % pasa el tiempo
         ),
 
         if(
             (1,0)!0 = 2, % es el oponente 2
-            if((0,0)!4 = -1, randInt(4), min((0,0)!4, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!4 = -1, randInt(4) + 0, min((0,0)!4, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!4 > 0, (0,0)!4 - 1 , (0,0)!4) % pasa el tiempo
         ),
 
         if(
             (1,0)!0 = 3, % es el oponente 3
-            if((0,0)!5 = -1, randInt(4), min((0,0)!5, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!5 = -1, randInt(4) + 0, min((0,0)!5, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!5 > 0, (0,0)!5 - 1 , (0,0)!5) % pasa el tiempo
         ),
 
         if(
             (1,0)!0 = 4, % es el oponente 4
-            if((0,0)!6 = -1, randInt(4), min((0,0)!6, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!6 = -1, randInt(4) + 0, min((0,0)!6, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!6 > 0, (0,0)!6 - 1 , (0,0)!6) % pasa el tiempo
         ),
 
         if(
             (1,0)!0 = 5, % es el oponente 5
-            if((0,0)!7 = -1, randInt(4), min((0,0)!7, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!7 = -1, randInt(4) + 0, min((0,0)!7, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!7 > 0, (0,0)!7 - 1 , (0,0)!7) % pasa el tiempo
         )
 
@@ -367,31 +367,31 @@ rule : {
 
         if(
              (-1,0)!0 = 1, % es el oponente 1
-            if((0,0)!3 = -1, randInt(4), min((0,0)!3, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!3 = -1, randInt(4) + 0, min((0,0)!3, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!3 > 0, (0,0)!3 - 1 , (0,0)!3) % pasa el tiempo
         ),
 
         if(
              (-1,0)!0 = 2, % es el oponente 2
-            if((0,0)!4 = -1, randInt(4), min((0,0)!4, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!4 = -1, randInt(4) + 0, min((0,0)!4, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!4 > 0, (0,0)!4 - 1 , (0,0)!4) % pasa el tiempo
         ),
 
         if(
              (-1,0)!0 = 3, % es el oponente 3
-            if((0,0)!5 = -1, randInt(4), min((0,0)!5, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!5 = -1, randInt(4) + 0, min((0,0)!5, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!5 > 0, (0,0)!5 - 1 , (0,0)!5) % pasa el tiempo
         ),
 
         if(
              (-1,0)!0 = 4, % es el oponente 4
-            if((0,0)!6 = -1, randInt(4), min((0,0)!6, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!6 = -1, randInt(4) + 0, min((0,0)!6, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!6 > 0, (0,0)!6 - 1 , (0,0)!6) % pasa el tiempo
         ),
 
         if(
              (-1,0)!0 = 5, % es el oponente 5
-            if((0,0)!7 = -1, randInt(4), min((0,0)!7, randInt(4))), % si ya me buchoneo (lo sepa o no)
+            if((0,0)!7 = -1, randInt(4) + 0, min((0,0)!7, randInt(4) + 0)), % si ya me buchoneo (lo sepa o no)
             if((0,0)!7 > 0, (0,0)!7 - 1 , (0,0)!7) % pasa el tiempo
         )
 
