@@ -18,4 +18,14 @@ with open("prisioneros.ma", "w") as f:
                             min_delay=0,
                             initial_values_file='prisioneros.val',
                             added_sentence=100,
-                            betrayal_proba='randInt(1) = 0'))
+                            betrayal_proba=betrayal_probas[1]))
+
+template = env.get_template("prisioneros.val.j2")
+with open("prisioneros.val", "w") as f:
+    f.write(template.render(prisioners=[
+        dict(x=0,y=0, direction=1, denounced_by_2=4),
+        dict(x=0,y=1, direction=3),
+        dict(x=5,y=5, direction=1, sentence=2000, denounced_by_2=0),
+        dict(x=5,y=6, direction=3),
+        dict(x=6,y=6, direction=4,denounced_by_4=0),
+    ]))

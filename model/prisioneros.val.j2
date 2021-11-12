@@ -1,0 +1,3 @@
+{% for prisioner in prisioners %}
+({{ prisioner.x }}, {{ prisioner.y }}) = [{{ loop.index }}, {{ prisioner.direction or 1 }}, {{ prisioner.sentence or 1000 }}, {% for x in prisioners %}{% if "denounced_by_" ~ loop.index in prisioner %}{{ prisioner["denounced_by_" ~ loop.index] }}{% else %}-1{% endif %}{% if not loop.last %},{% endif %}{% endfor %}]
+{% endfor %}
