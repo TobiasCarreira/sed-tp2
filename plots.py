@@ -596,10 +596,35 @@ def plot_agents(data):
             ax.text(x, y, text, ha="center", va="center", color=color, fontsize="x-large")
 
 
+def count_agents(df_log):
+    def count(frame):
+        agents, directions, life_time = frame
+        return len(directions)
+    return {
+        'num_alive': [count(get_agents(df, time)) for time in df["time"].unique()],
+        'time': df["time"].unique()
+    }
+
+
+# TODO: que agarre una lista de DFs y haga grafico con area de error estandar
+def plot_agents_count(df_log):
+    counts = count_agents(df)
+    fig = plt.figure(figsize=(10, 10))
+    plt.plot(counts['time'], counts['num_alive'], label='Prisioneros que siguen en la carcel')
+    plt.legend()
+    plt.grid()
+    plt.show()
+
+
+def make_animation(df_log, filename="animation"):
+    fig = plt.figure(figsize=(10, 10))
+    frames = [get_agents(df, time) for time in df["time"].unique()]
+    anim = FuncAnimation(fig, plot_agents, frames=frames, interval=500)
+    anim.save(f"{filename}.gif", writer="imagemagick")
+
+
 if __name__ == "__main__":
     df = load_log("model/log/log.log01")
-    frames = [get_agents(df, time) for time in df["time"].unique()]
 
-    fig = plt.figure(figsize=(10, 10))
-    anim = FuncAnimation(fig, plot_agents, frames=frames, interval=500)
-    anim.save("animation.gif", writer="imagemagick")
+    plot_agents_count(df)
+    # make_animation(df)
