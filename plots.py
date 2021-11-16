@@ -552,7 +552,7 @@ log_index = {
     539: (5000, (10, 20), "randInt(4) != 0"),
 }
 
-# TODO: hacer lo mismo para conseguir direcciones y tiempos, pensar si hacer diccionario de id_agente a los otros datos
+
 def get_agents(df, time):
     timed_df = df[df[TIME_COL] == time]
     agents = np.zeros((x_size, y_size), dtype=int)
@@ -652,7 +652,7 @@ def agents_count_stats(df_log_list):
 
 def make_animation(df_log, filename="animation"):
     fig = plt.figure(figsize=(10, 10))
-    frames = [get_agents(df, time) for time in df["time"].unique()]
+    frames = [get_agents(df_log, time) for time in df_log["time"].unique()]
     anim = FuncAnimation(fig, plot_agents, frames=frames, interval=500)
     anim.save(f"{filename}.gif", writer="imagemagick")
 
