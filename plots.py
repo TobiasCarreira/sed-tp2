@@ -619,7 +619,7 @@ def fill_counts(counts_list):
 
 
 def plot_uncertainty(stats, title):
-    fig = plt.figure(figsize=(10, 10))
+    fig = plt.figure(figsize=(16, 9))
     plt.fill_between(stats['time'], stats['25%'], stats['75%'], alpha=0.5, label='Intervalo 25%/75%')
     plt.plot(stats['time'], stats['50%'], label='Mediana prisioneros que siguen en la carcel')
     plt.title(title)
