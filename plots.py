@@ -2,6 +2,7 @@ from log_loader import load_log, TIME_COL, VALUE_COL, COORDS_COL
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+import pandas as pd
 
 x_size = 12
 y_size = 12
@@ -566,13 +567,13 @@ def get_agents(df, time):
             agents[x, y] = i
             directions[i] = d
             life_time[i] = t
-            print((time, t, i, enojos))
+            # print((time, t, i, enojos))
     return agents, directions, life_time
 
 
 def plot_agents(data):
     agents, directions, life_time = data
-    print(data)
+    # print(data)
 
     plt.axes().clear()
     pc = plt.pcolor(agents, cmap="Dark2", edgecolors="k", linewidths=1)
@@ -600,20 +601,41 @@ def count_agents(df_log):
     def count(frame):
         agents, directions, life_time = frame
         return len(directions)
-    return {
-        'num_alive': [count(get_agents(df, time)) for time in df["time"].unique()],
-        'time': df["time"].unique()
-    }
+    return pd.DataFrame([
+        (count(get_agents(df_log, time)), time)
+        for time in df_log["time"].unique()
+    ], columns=['num_alive', 'time'])
 
 
-# TODO: que agarre una lista de DFs y haga grafico con area de error estandar
-def plot_agents_count(df_log):
-    counts = count_agents(df)
+# Agrega 0s al final de las simulaciones, para que todas tengan el mismo largo
+# Si no se hiciera esto, calcularia mal los estadisticos
+def fill_counts(counts_list):
+    max_times = [counts['time'].max() for counts in counts_list]
+    total_max = max(max_times)
+    def fill(counts, max_time):
+        times = range(max_time+100, total_max+100, 100)
+        return counts.append(pd.DataFrame(dict(num_alive=[0]*len(times), time=[t for t in times])))
+    return [fill(counts, max_time) for counts, max_time in zip(counts_list, max_times)]
+
+
+def plot_uncertainty(stats, title):
     fig = plt.figure(figsize=(10, 10))
-    plt.plot(counts['time'], counts['num_alive'], label='Prisioneros que siguen en la carcel')
+    plt.fill_between(stats['time'], stats['25%'], stats['75%'], alpha=0.5, label='Intervalo 25%/75%')
+    plt.plot(stats['time'], stats['50%'], label='Mediana prisioneros que siguen en la carcel')
+    plt.title(title)
     plt.legend()
     plt.grid()
     plt.show()
+
+
+def agents_count_stats(df_log_list):
+    counts_list = fill_counts([count_agents(df_log) for df_log in df_log_list])
+    # agrego columna de que corrida es
+    for i, counts in enumerate(counts_list):
+        counts.loc[:,'run'] = i
+    # tomo mediana y cuartiles
+    stats = pd.concat(counts_list).groupby('time')['num_alive'].describe().reset_index()
+    return stats
 
 
 def make_animation(df_log, filename="animation"):
@@ -623,8 +645,13 @@ def make_animation(df_log, filename="animation"):
     anim.save(f"{filename}.gif", writer="imagemagick")
 
 
-if __name__ == "__main__":
+def main():
     df = load_log("model/log/log.log01")
 
-    plot_agents_count(df)
+    stats = agents_count_stats([load_log(f"model/log{i}/log.log01") for i in range(10)])
+    plot_uncertainty(stats, 'Experimento 100 de condena agregada, 0 a 5 turnos para avisar buchoneo, 20% probabilidad de buchoneo')
     # make_animation(df)
+
+
+if __name__ == "__main__":
+    main()
