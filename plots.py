@@ -597,14 +597,26 @@ def plot_agents(data):
             ax.text(x, y, text, ha="center", va="center", color=color, fontsize="x-large")
 
 
+def count_agents_frame(frame):
+    agents, directions, life_time = frame
+    return len(directions)
+
+
 def count_agents(df_log):
-    def count(frame):
-        agents, directions, life_time = frame
-        return len(directions)
     return pd.DataFrame([
-        (count(get_agents(df_log, time)), time)
+        (count_agents_frame(get_agents(df_log, time)), time)
         for time in df_log["time"].unique()
     ], columns=['num_alive', 'time'])
+
+
+def total_life_times(df_log):
+    num = count_agents_frame(get_agents(df_log, 0))
+    res = []
+    for time in df_log["time"].unique():
+        new_num = count_agents_frame(get_agents(df_log, time))
+        res += [time]*(num - new_num)
+        num = new_num
+    return res
 
 
 # Agrega 0s al final de las simulaciones, para que todas tengan el mismo largo
@@ -645,12 +657,23 @@ def make_animation(df_log, filename="animation"):
     anim.save(f"{filename}.gif", writer="imagemagick")
 
 
+def plot_histogram(life_times, title):
+    plt.figure(figsize=(16, 9))
+    plt.hist(life_times, bins=range(0, max(life_times)+100, 100))
+    plt.title(title)
+    plt.show()
+
+
 def main():
     df = load_log("model/log/log.log01")
-
-    stats = agents_count_stats([load_log(f"model/log{i}/log.log01") for i in range(10)])
-    plot_uncertainty(stats, 'Experimento 100 de condena agregada, 0 a 5 turnos para avisar buchoneo, 20% probabilidad de buchoneo')
     # make_animation(df)
+
+    log_dfs = [load_log(f"model/log{i}/log.log01") for i in range(10)]
+
+    stats = agents_count_stats(log_dfs)
+    plot_uncertainty(stats, 'Experimento 100 de condena agregada, 0 a 5 turnos para avisar buchoneo, 20% probabilidad de buchoneo')
+
+    plot_histogram(sum([total_life_times(log_df) for log_df in log_dfs], []), 'Tiempo de condena total')
 
 
 if __name__ == "__main__":
