@@ -4,7 +4,8 @@ src/bin/cd++
 *.so
 *.dep
 *.dep.*
-*.log*
+*log.*
+!*log.log01
 *.out
 
 .ipynb_checkpoints/

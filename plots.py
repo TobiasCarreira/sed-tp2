@@ -559,6 +559,9 @@ log_index = {
     538: (5000, (10, 20), "randInt(4) != 0"),
     539: (5000, (10, 20), "randInt(4) != 0"),
 }
+indices = sorted([str(i) for i in log_index.keys()])
+indices = list(map(int, indices))
+log_index = {i: log_index[v] for i, v in enumerate(indices)}
 
 
 def get_agents(df, time):
