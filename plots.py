@@ -8,6 +8,14 @@ x_size = 12
 y_size = 12
 
 direction_to_unicode = {1: "\u2192", 2: "\u2193", 3: "\u2190", 4: "\u2191"}
+direction_cell = {1:(0,1), 2:(1,0), 3:(0,-1), 4:(-1,0)}
+
+
+def next_cell(cell, direction):
+    x,y = cell
+    dx,dy = direction_cell[direction]
+    return (x+dx, y+dy)
+
 
 log_index = {
     0: (100, (0, 5), "randInt(4) = 0"),
@@ -571,6 +579,25 @@ def get_agents(df, time):
     return agents, directions, life_time
 
 
+def get_conflicts(df):
+    buchoneos = []
+    last_turn_agents, last_turn_dir, last_turn_life_time = get_agents(df, 0)
+    for time in df['time'].unique():
+        agents, directions, life_time = get_agents(df, time)
+        timed_df = df[df[TIME_COL] == time]
+        for _, row in timed_df.iterrows():
+            x, y = row[COORDS_COL]
+            val = row[VALUE_COL]
+            if val != 0:
+                i, d, t, *enojos = val
+                if last_turn_life_time[i] < life_time[i]:
+                    # Fui buchoneado
+                    buchon_x, buchon_y = next_cell((x,y), last_turn_dir[i])
+                    buchoneos.append(dict(buchoneado=i, buchon=last_turn_agents[buchon_x, buchon_y], time=time))
+        last_turn_agents, last_turn_dir, last_turn_life_time = agents, directions, life_time
+    return buchoneos
+
+
 def plot_agents(data):
     agents, directions, life_time = data
     # print(data)
@@ -616,6 +643,17 @@ def total_life_times(df_log):
         new_num = count_agents_frame(get_agents(df_log, time))
         res += [time]*(num - new_num)
         num = new_num
+    return res
+
+
+def total_life_time_agents(df_log):
+    indexes = set(get_agents(df_log, 0)[1].keys())
+    res = {}
+    for time in df_log["time"].unique():
+        new_indexes = set(get_agents(df_log, time)[1].keys())
+        for i in indexes.difference(new_indexes):
+            res[i] = time
+        indexes = new_indexes
     return res
 
 
