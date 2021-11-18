@@ -561,7 +561,18 @@ log_index = {
 }
 indices = sorted([str(i) for i in log_index.keys()])
 indices = list(map(int, indices))
+# log_index[i] = log_index[indices[i]] for i in range(len(indices))
 log_index = {i: log_index[v] for i, v in enumerate(indices)}
+
+
+def proba_text(n):
+    assert n in [20,50,80]
+    if n == 20:
+        return "randInt(4) = 0"
+    if n == 50:
+        return "randInt(1) = 0"
+    if n == 80:
+        return "randInt(4) != 0"
 
 
 def get_agents(df, time):
