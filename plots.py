@@ -14,7 +14,7 @@ direction_cell = {1:(0,1), 2:(1,0), 3:(0,-1), 4:(-1,0)}
 def next_cell(cell, direction):
     x,y = cell
     dx,dy = direction_cell[direction]
-    return (x+dx, y+dy)
+    return ((x+dx) % x_size, (y+dy) % y_size)
 
 
 log_index = {
@@ -563,6 +563,15 @@ indices = sorted([str(i) for i in log_index.keys()])
 indices = list(map(int, indices))
 # log_index[i] = log_index[indices[i]] for i in range(len(indices))
 log_index = {i: log_index[v] for i, v in enumerate(indices)}
+
+
+def search_experiment_results(c, delay, p):
+    first_experiment = min([i for i, v in log_index.items() if v == (c, delay, p)])
+    experiments_index = range(first_experiment, first_experiment + 15)
+    # print(experiments_index)
+    assert len(experiments_index) == 15
+    # print([indices[i] for i in experiments_index])
+    return [load_log(f"model/log-{indices[i]}/log.log01") for i in experiments_index]
 
 
 def proba_text(n):

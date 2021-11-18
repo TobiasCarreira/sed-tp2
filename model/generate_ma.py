@@ -1,5 +1,6 @@
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from random import randint, sample, normalvariate
+from experiment_utils import *
 import numpy as np
 
 env = Environment(
@@ -7,13 +8,6 @@ env = Environment(
     autoescape=select_autoescape(),
 )
 ma_template = env.get_template("prisioneros.ma.j2")
-
-sentences = [100, 1000, 5000]
-delays = [(0,5), (0,10), (5,10), (10,20)]
-betrayal_probas = ['randInt(4) = 0', 'randInt(1) = 0', 'randInt(4) != 0'] # [1/5, 1/2, 4/5]
-num_prisioners = 30
-num_runs = 15
-width = 12
 
 
 def random_prisoners(width, height, quantity, mean_initial_sentence=50, std_initial_sentence=10):
