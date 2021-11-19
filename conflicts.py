@@ -20,4 +20,4 @@ all_experiments = [
 
 num_conflicts = pd.concat([process(c,d,p) for c,d,p in tqdm(all_experiments)])
 
-num_conflicts.to_csv('conflicts.csv')
+num_conflicts.to_csv('conflicts.csv', index=False)
