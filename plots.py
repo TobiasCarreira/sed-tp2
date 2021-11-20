@@ -718,7 +718,7 @@ def make_animation(df_log, filename="animation"):
     anim.save(f"{filename}.gif", writer="imagemagick")
 
 
-def plot_histogram(life_times, title):
+def plot_time_histogram(life_times, title):
     plt.figure(figsize=(16, 9))
     plt.hist(life_times, bins=range(0, max(life_times)+100, 100))
     plt.title(title)
