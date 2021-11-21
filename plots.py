@@ -583,6 +583,11 @@ def proba_text(n):
     if n == 80:
         return "randInt(4) != 0"
 
+def proba_from_text(t):
+    d = {"randInt(4) = 0": "20%", "randInt(1) = 0": "50%", "randInt(4) != 0": "80%"}
+    assert t in d.keys()
+    return d[t]
+
 
 def get_agents(df, time):
     timed_df = df[df[TIME_COL] == time]
